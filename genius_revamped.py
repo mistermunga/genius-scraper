@@ -61,6 +61,24 @@ def get_songs_by_artist(artist_id):
     return json_data['response']['songs']
 
 
+def get_lyrics(song_name, artist):
+    artist_id = get_artist_id(artist)
+    songs = get_songs_by_artist(artist_id)
+
+    if not songs:
+        print("No songs found")
+    else:
+        for song in songs:
+            if song['title'] == song_name:
+                print(f"Selected Song: {song['full_title']}")
+                try:
+                    lyrics = lyrics_from_song_api_path(song['api_path'])
+                    return lyrics
+                except ValueError as e:
+                    print(str(e))
+
+
+# test module
 if __name__ == '__main__':
     artist_id = get_artist_id(artist_name)
 

@@ -5,37 +5,13 @@ import genius_revamped
 def on_submit():
     artist = artist_entry.get()
     song = song_entry.get()
-    lyrics = get_info(artist, song)
+    lyrics = genius_revamped.get_lyrics(song, artist)
+
+    lyrics_text.delete(1.0, tk.END)  # Clear previous text
     if lyrics:
-        lyrics_text.delete(1.0, tk.END)  # Clear previous text
         lyrics_text.insert(tk.END, lyrics)
     else:
-        lyrics_text.delete(1.0, tk.END)  # Clear previous text
         lyrics_text.insert(tk.END, "Lyrics not found or error occurred.")
-
-
-def get_info(artist_name, song_name):
-    artistID = genius_revamped.get_artist_id(artist_name)
-
-    if not artistID:
-        return "Artist not found."
-    else:
-        songs = genius_revamped.get_songs_by_artist(artistID)
-        song_info = None
-
-        for song in songs:
-            if song['title'].lower() == song_name.lower():
-                song_info = song
-                break
-
-        if song_info:
-            try:
-                lyrics = genius_revamped.lyrics_from_song_api_path(song_info['api_path'])
-                return lyrics
-            except Exception as e:
-                return f"An error occurred: {e}"
-        else:
-            return "Song not found."
 
 
 window = tk.Tk()
