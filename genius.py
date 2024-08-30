@@ -19,6 +19,7 @@ headers = {'Authorization': 'Bearer YOURTOKENHERE'}
 song_title = 'Sad but True'
 artist_name = 'Metallica'
 
+
 def lyrics_from_song_api_path(song_api_path):
     song_url = base_url + song_api_path
     response = requests.get(song_url, headers=headers)
@@ -31,6 +32,7 @@ def lyrics_from_song_api_path(song_api_path):
     html = BeautifulSoup(page.text, 'html.parser')
     lyrics = html.find(class_='lyrics').get_text()
     return lyrics
+
 
 if __name__ == '__main__':
     search_url = base_url + '/search'
